@@ -22,40 +22,24 @@ functions/api/instagram.js ← Cloudflare Pages Function for the Instagram feed
 
 ---
 
-## 1. Deploy to Cloudflare
+## 1. Deploy to Cloudflare Pages
 
-The repo works with either of Cloudflare's two options.
+The site is live as the Pages project **zawadildn** (https://zawadildn.pages.dev).
 
-### Option A: Workers (Cloudflare's default "Create application" flow)
-
-1. Go to **Workers & Pages → Create → Import a repository** and pick this repo.
+1. **Workers & Pages → Create → Pages → Connect to Git** and pick this repo.
 2. Settings:
-   - **Production branch:** `main`
-   - **Build command:** *leave empty*
-   - **Deploy command:** `npx wrangler deploy` (the default)
-   - **Root directory:** *leave empty*
-3. Deploy. `wrangler.jsonc` tells Cloudflare to serve the `public/` folder and run the Instagram feed from `worker/index.js`.
-
-If Cloudflare says the Worker name doesn't match, change `"name"` in `wrangler.jsonc` to the name shown in Cloudflare (it's currently `zawadilondon`).
-
-### Option B: Pages
-
-1. In Cloudflare, go to **Workers & Pages → Create → Pages → Connect to Git**.
-2. Pick the GitHub repo **BeyondScrumptiousDevelopment/ZawadiLondon**.
-3. Use these build settings:
 
 | Setting | Value |
 | --- | --- |
 | Production branch | `main` |
 | Framework preset | **None** |
-| Build command | *leave empty* (if Cloudflare insists on one, use `exit 0`) |
-| Build output directory | `public` |
-| Root directory | *leave empty* (`/`) |
+| Build command | *leave empty* |
+| Build output directory | `public` (also set in `wrangler.toml`, which takes priority) |
+| Root directory | *leave empty* |
 
-4. Click **Save and Deploy**. You'll get a `*.pages.dev` address within a minute.
-5. Add your domain under **Custom domains**.
+3. **Save and Deploy**, then add your domain under **Custom domains**.
 
-There's no build step: the site is plain HTML/CSS/JS. Cloudflare finds `functions/` on its own and runs `/api/instagram` as a Pages Function. Every push to the production branch redeploys, and other branches get preview links.
+`wrangler.toml` tells Cloudflare to serve the `public/` folder, whatever the dashboard says. Its `name` must match the Pages project name (`zawadildn`). There's no build step: Cloudflare finds `functions/` on its own and runs `/api/instagram`. Every push to `main` redeploys, and other branches get preview links.
 
 ## 2. Edit products (Pages CMS)
 
