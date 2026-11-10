@@ -525,3 +525,4 @@ p { margin: 0 0 var(--space-2); }
 .footer-meta .caption { margin: 0; }
 .credit { letter-spacing: .12em; text-transform: uppercase; font-size: 13px; }
 @media (max-width: 720px) { .footer-meta { text-align: left; } }
+.credit a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
