@@ -57,7 +57,7 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-img, video { display: block; max-width: 100%; }
+img, video { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
 button { font: inherit; color: inherit; }
 ::selection { background: var(--zawadi-green); color: var(--zawadi-white); }
@@ -211,7 +211,7 @@ p { margin: 0 0 var(--space-2); }
 .hero { min-height: 100svh; display: flex; align-items: center; padding: calc(var(--header-h) + var(--space-4)) 0 var(--space-6); overflow: hidden; }
 .hero-grid { display: grid; gap: var(--space-6); align-items: center; }
 @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.05fr .95fr; gap: var(--space-8); } }
-.hero-logo { width: min(340px, 72vw); margin-bottom: var(--space-4); }
+.hero-logo { width: min(300px, 62vw); height: auto; margin-bottom: var(--space-4); }
 .hero h1 { font-size: clamp(26px, 2.6vw, 30px); line-height: 1.45; font-weight: 300; margin: 0 0 var(--space-4); max-width: 22em; }
 .hero-media { position: relative; }
 .hero-frame { position: relative; aspect-ratio: 4 / 5; width: min(100%, 480px); margin-left: auto; overflow: hidden; }
