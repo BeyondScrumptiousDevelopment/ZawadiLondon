@@ -22,7 +22,23 @@ functions/api/instagram.js ← Cloudflare Pages Function for the Instagram feed
 
 ---
 
-## 1. Deploy to Cloudflare Pages
+## 1. Deploy to Cloudflare
+
+The repo works with either of Cloudflare's two options.
+
+### Option A: Workers (Cloudflare's default "Create application" flow)
+
+1. Go to **Workers & Pages → Create → Import a repository** and pick this repo.
+2. Settings:
+   - **Production branch:** `main`
+   - **Build command:** *leave empty*
+   - **Deploy command:** `npx wrangler deploy` (the default)
+   - **Root directory:** *leave empty*
+3. Deploy. `wrangler.jsonc` tells Cloudflare to serve the `public/` folder and run the Instagram feed from `worker/index.js`.
+
+If Cloudflare says the Worker name doesn't match, change `"name"` in `wrangler.jsonc` to the name shown in Cloudflare (it's currently `zawadilondon`).
+
+### Option B: Pages
 
 1. In Cloudflare, go to **Workers & Pages → Create → Pages → Connect to Git**.
 2. Pick the GitHub repo **BeyondScrumptiousDevelopment/ZawadiLondon**.
@@ -30,7 +46,7 @@ functions/api/instagram.js ← Cloudflare Pages Function for the Instagram feed
 
 | Setting | Value |
 | --- | --- |
-| Production branch | `main` (or `claude/beautiful-clarke-enekl0` until it's merged) |
+| Production branch | `main` |
 | Framework preset | **None** |
 | Build command | *leave empty* (if Cloudflare insists on one, use `exit 0`) |
 | Build output directory | `public` |
@@ -60,7 +76,7 @@ The feed needs an access token from Instagram's official API (the old "Basic Dis
 1. In the Instagram app, switch **@zawadildn** to a **Professional account** (Creator or Business). It's free.
 2. Go to **developers.facebook.com → My Apps → Create app**, choose the *Business* type, and add the **Instagram** product.
 3. Under **Instagram → API setup with Instagram login**, add @zawadildn and click **Generate token**. This gives you a long-lived token (valid for 60 days).
-4. In Cloudflare: **your Pages project → Settings → Variables and Secrets → Add**
+4. In Cloudflare: **your Pages project → Settings → Variables and Secrets → Add** (on a Worker: **Settings → Variables and Secrets**)
    - Name: `INSTAGRAM_TOKEN` · Type: **Secret** · Value: the token
 5. *(Recommended, so the token never expires)* **Workers & Pages → KV → Create namespace** (e.g. `zawadi-instagram`). Then go to **Pages project → Settings → Bindings → Add → KV namespace**, with variable name `IG_KV`. The function then refreshes the token every 7 days on its own.
 6. Redeploy (**Deployments → … → Retry deployment**). Open `https://<your-site>/api/instagram` and you should see your posts as JSON.

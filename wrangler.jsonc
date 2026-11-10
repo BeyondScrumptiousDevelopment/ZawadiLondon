@@ -1,0 +1,15 @@
+// Cloudflare Workers config: serves the site in ./public and the
+// Instagram feed at /api/instagram. (Cloudflare Pages ignores this file
+// and uses the "public" output directory + functions/ instead.)
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zawadilondon",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash"
+  },
+  "observability": { "enabled": true }
+}
