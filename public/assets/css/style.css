@@ -521,3 +521,7 @@ p { margin: 0 0 var(--space-2); }
 @keyframes pulse { 50% { opacity: .25; } }
 .footer { border-top: 1px solid rgba(255,255,255,.24); }
 .product-main .ph img { position: static; inset: auto; width: 110px; height: auto; opacity: 1; }
+.footer-meta { display: flex; flex-direction: column; gap: 4px; text-align: right; }
+.footer-meta .caption { margin: 0; }
+.credit { letter-spacing: .12em; text-transform: uppercase; font-size: 13px; }
+@media (max-width: 720px) { .footer-meta { text-align: left; } }
