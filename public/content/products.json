@@ -1,0 +1,69 @@
+{
+  "products": [
+    {
+      "slug": "zawadi-frame",
+      "name": "The Zawadi Frame",
+      "tagline": "A personalised frame for the moment you want to keep.",
+      "price": 50,
+      "priceNote": "",
+      "available": true,
+      "featured": true,
+      "designer": true,
+      "image": "/assets/img/photos/riddhi-dark.jpg",
+      "gallery": [
+        "/assets/img/photos/siblings.jpg",
+        "/assets/img/photos/sisters.jpg",
+        "/assets/img/photos/graduation-angle.jpg"
+      ],
+      "video": "/assets/video/riddhi.mp4",
+      "description": "Your photo, framed with the names, date and words that make it yours. Thoughtfully designed in London and made especially for you — a gift for a new baby, a newly married couple, a graduate, or anyone with a moment worth keeping.",
+      "perfectFor": ["Birth announcements", "Weddings", "Graduations", "Favourite photos"],
+      "personalise": ["Your photo", "Names", "Date", "A short line of text"],
+      "options": [
+        { "name": "Frame", "choices": ["White", "Black"] },
+        { "name": "Finish", "choices": ["Gold lettering", "Pearl detail"] }
+      ],
+      "etsyUrl": "https://zawadilondon.etsy.com"
+    },
+    {
+      "slug": "stitched-picture",
+      "name": "Stitched Pictures",
+      "tagline": "Your photo, finished with stitched detail you can feel.",
+      "price": null,
+      "priceNote": "Price on request",
+      "available": true,
+      "featured": true,
+      "designer": false,
+      "image": "",
+      "gallery": [],
+      "video": "",
+      "description": "A favourite photo brought to life with hand-stitched details — a name, a date or a few words, sewn by hand so the moment has texture as well as colour.",
+      "perfectFor": ["New babies", "Anniversaries", "Memorials", "Favourite photos"],
+      "personalise": ["Your photo", "Names", "Date", "Thread colour"],
+      "options": [
+        { "name": "Stitching", "choices": ["Name", "Name and date", "Short message"] }
+      ],
+      "etsyUrl": "https://zawadilondon.etsy.com"
+    },
+    {
+      "slug": "embroidered-picture",
+      "name": "Embroidered Pictures",
+      "tagline": "Embroidery on your picture, made especially for you.",
+      "price": null,
+      "priceNote": "Price on request",
+      "available": true,
+      "featured": true,
+      "designer": false,
+      "image": "",
+      "gallery": [],
+      "video": "",
+      "description": "Your picture with embroidered details added by hand — delicate flowers, initials or a little motif that makes it unmistakably yours.",
+      "perfectFor": ["Weddings", "Birthdays", "Family portraits", "Gifts"],
+      "personalise": ["Your photo", "Initials or names", "Motif", "Thread colour"],
+      "options": [
+        { "name": "Embroidery", "choices": ["Initials", "Floral border", "Custom motif"] }
+      ],
+      "etsyUrl": "https://zawadilondon.etsy.com"
+    }
+  ]
+}

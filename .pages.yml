@@ -1,0 +1,43 @@
+# Pages CMS configuration — https://pagescms.org
+# Sign in at https://app.pagescms.org with GitHub, open this repository,
+# and edit products from the "Products" screen. Every save is a commit;
+# Cloudflare Pages redeploys the site automatically.
+
+media:
+  input: public/assets/img/uploads
+  output: /assets/img/uploads
+
+content:
+  - name: products
+    label: Products
+    type: file
+    path: public/content/products.json
+    format: json
+    fields:
+      - name: products
+        label: Products
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Product name, type: string, required: true }
+          - { name: slug, label: URL name (lowercase, dashes, no spaces), type: string, required: true }
+          - { name: tagline, label: One-line description, type: string }
+          - { name: price, label: Price in £ (leave empty for "price on request"), type: number }
+          - { name: priceNote, label: Price note (e.g. "From £35" or "Price on request"), type: string }
+          - { name: available, label: Show on the website, type: boolean, default: true }
+          - { name: featured, label: Show on the home page, type: boolean, default: true }
+          - { name: designer, label: Show the live "Picture yours" preview, type: boolean, default: false }
+          - { name: image, label: Main photo, type: image }
+          - { name: gallery, label: More photos, type: image, list: true }
+          - { name: video, label: Video (MP4 path, optional), type: string }
+          - { name: description, label: Description, type: text }
+          - { name: perfectFor, label: Perfect for, type: string, list: true }
+          - { name: personalise, label: You choose, type: string, list: true }
+          - name: options
+            label: Options
+            type: object
+            list: true
+            fields:
+              - { name: name, label: Option name (e.g. Frame), type: string }
+              - { name: choices, label: Choices, type: string, list: true }
+          - { name: etsyUrl, label: Etsy link for this product, type: string, default: "https://zawadilondon.etsy.com" }
