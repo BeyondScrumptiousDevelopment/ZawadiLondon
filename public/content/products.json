@@ -31,7 +31,6 @@
       ],
       "personalise": [],
       "options": [],
-      "stripeUrl": "",
       "etsyUrl": "https://zawadilondon.etsy.com"
     },
     {
@@ -65,7 +64,6 @@
       ],
       "personalise": [],
       "options": [],
-      "stripeUrl": "",
       "etsyUrl": "https://zawadilondon.etsy.com"
     },
     {
@@ -99,7 +97,6 @@
       ],
       "personalise": [],
       "options": [],
-      "stripeUrl": "",
       "etsyUrl": "https://zawadilondon.etsy.com"
     },
     {
@@ -133,7 +130,6 @@
       ],
       "personalise": [],
       "options": [],
-      "stripeUrl": "",
       "etsyUrl": "https://zawadilondon.etsy.com"
     },
     {
@@ -166,7 +162,6 @@
       ],
       "personalise": [],
       "options": [],
-      "stripeUrl": "",
       "etsyUrl": "https://zawadilondon.etsy.com"
     },
     {
@@ -200,7 +195,6 @@
       ],
       "personalise": [],
       "options": [],
-      "stripeUrl": "",
       "etsyUrl": "https://zawadilondon.etsy.com"
     },
     {
@@ -249,8 +243,7 @@
         }
       ],
       "etsyUrl": "https://zawadilondon.etsy.com",
-      "collection": "",
-      "stripeUrl": ""
+      "collection": ""
     },
     {
       "slug": "stitched-picture",
@@ -288,8 +281,7 @@
         }
       ],
       "etsyUrl": "https://zawadilondon.etsy.com",
-      "collection": "",
-      "stripeUrl": ""
+      "collection": ""
     },
     {
       "slug": "embroidered-picture",
@@ -327,8 +319,7 @@
         }
       ],
       "etsyUrl": "https://zawadilondon.etsy.com",
-      "collection": "",
-      "stripeUrl": ""
+      "collection": ""
     }
   ],
   "collections": [

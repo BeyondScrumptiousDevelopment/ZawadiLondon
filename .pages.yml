@@ -46,7 +46,6 @@ content:
             fields:
               - { name: name, label: Option name (e.g. Frame), type: string }
               - { name: choices, label: Choices, type: string, list: true }
-          - { name: stripeUrl, label: Stripe payment link (shows a "Buy now" button), type: string }
           - { name: etsyUrl, label: Etsy link for this product, type: string, default: "https://zawadilondon.etsy.com" }
       - name: collections
         label: Collections

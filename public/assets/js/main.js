@@ -452,16 +452,9 @@
 
       var note = p.personalisationNote ? '<div class="pnote reveal"><b>Personalisation</b><p>' + esc(p.personalisationNote) + "</p></div>" : "";
 
-      var buttons;
-      if (p.stripeUrl) {
-        buttons = '<a class="btn" href="' + esc(p.stripeUrl) + '" target="_blank" rel="noopener">Buy now · ' + esc(priceText(p)) + ' <span class="arrow">→</span></a>' +
-          '<a class="btn btn--ghost" href="' + esc(etsy) + '" target="_blank" rel="noopener">Or order on Etsy</a>';
-      } else {
-        buttons = '<a class="btn" href="' + esc(etsy) + '" target="_blank" rel="noopener">Order on Etsy <span class="arrow">→</span></a>';
-      }
+      var buttons = '<a class="btn" href="' + esc(etsy) + '" target="_blank" rel="noopener">Order on Etsy <span class="arrow">→</span></a>';
       if (opts) buttons += '<button type="button" class="btn btn--ghost" data-copy-opts>Copy my choices</button><span class="copied" role="status">Copied</span>';
-      else if (!p.stripeUrl) buttons += '<a class="btn btn--ghost" href="contact.html">Enquire</a>';
-      var payNote = p.stripeUrl ? '<p class="caption reveal" style="margin-top:14px">Secure checkout by Stripe. You’ll add the name at checkout.</p>' : "";
+      else buttons += '<a class="btn btn--ghost" href="contact.html">Enquire</a>';
 
       pp.innerHTML =
         '<div class="product" data-product>' +
@@ -477,7 +470,7 @@
             (opts ? '<div class="reveal opts">' + opts + "</div>" : "") +
             '<ul class="spec reveal">' + spec + "</ul>" +
             note +
-            '<div class="btn-row reveal">' + buttons + "</div>" + payNote +
+            '<div class="btn-row reveal">' + buttons + "</div>" +
             '<p class="caption reveal" style="margin-top:24px">Want something a little different? <a href="contact.html">Make a custom enquiry.</a></p>' +
           "</div></div>";
 
