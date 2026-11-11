@@ -1,6 +1,209 @@
 {
   "products": [
     {
+      "slug": "pearl-name-bauble",
+      "name": "Pearl Name Bauble",
+      "collection": "christmas",
+      "tagline": "A clear bauble filled with ivory pearls, finished with a name and two snowflakes.",
+      "price": 12,
+      "priceNote": "",
+      "available": true,
+      "featured": false,
+      "designer": false,
+      "image": "",
+      "gallery": [],
+      "video": "",
+      "description": "A name to hang on the tree, every December from now on. This clear bauble is filled with soft ivory pearls and finished with a name and snowflakes. It catches the tree lights and makes a gentle first Christmas keepsake, or a name for every child on the family tree.",
+      "size": "6.9cm",
+      "nameLimit": "10 characters",
+      "postage": "£3.65 small parcel",
+      "details": [
+        "Clear acrylic, 6.9cm, filled with ivory faux pearls, hanging ribbon included",
+        "Name cut in vinyl, up to 10 characters",
+        "Made to order in London",
+        "Wipe with a soft dry cloth. A decoration, not a toy: it holds small pearls"
+      ],
+      "personalisationNote": "Please enter the name exactly as it should appear, up to 10 characters. We copy spelling and capitals as typed. No proof is sent.",
+      "perfectFor": [
+        "Baby's first Christmas",
+        "Children's names",
+        "Stocking fillers"
+      ],
+      "personalise": [],
+      "options": [],
+      "stripeUrl": "",
+      "etsyUrl": "https://zawadilondon.etsy.com"
+    },
+    {
+      "slug": "our-first-christmas-star",
+      "name": "Our First Christmas Star",
+      "collection": "christmas",
+      "tagline": "A clear star filled with ivory pearls, personalised with two names and the year.",
+      "price": 11,
+      "priceNote": "",
+      "available": true,
+      "featured": false,
+      "designer": false,
+      "image": "",
+      "gallery": [],
+      "video": "",
+      "description": "The first Christmas with your names side by side. A clear star filled with ivory pearls, personalised with two names and the year, for newlyweds, newly engaged couples and the first Christmas in a new home.",
+      "size": "8cm",
+      "nameLimit": "12 characters (both names)",
+      "postage": "£3.65 small parcel",
+      "details": [
+        "Clear acrylic star, 8cm wide, filled with ivory faux pearls, hanging ribbon included",
+        "Two names and the year in vinyl, up to 12 characters for the names (e.g. Ava & Leo)",
+        "Made to order in London",
+        "Wipe with a soft dry cloth. A decoration, not a toy"
+      ],
+      "personalisationNote": "Please enter both names, e.g. Ava & Leo. Up to 12 characters. We copy spelling as typed. No proof is sent.",
+      "perfectFor": [
+        "Newlyweds",
+        "Engagements",
+        "A first home"
+      ],
+      "personalise": [],
+      "options": [],
+      "stripeUrl": "",
+      "etsyUrl": "https://zawadilondon.etsy.com"
+    },
+    {
+      "slug": "santas-favourite-gold-disc",
+      "name": "Santa's Favourite Gold Disc",
+      "collection": "christmas",
+      "tagline": "A gold mirror disc with Santa's Favourite, a name and the year.",
+      "price": 9,
+      "priceNote": "",
+      "available": true,
+      "featured": false,
+      "designer": false,
+      "image": "",
+      "gallery": [],
+      "video": "",
+      "description": "For the one Santa always checks on first. A gold mirror disc personalised with Santa's Favourite, a name and the year. Order one for each child and let them all be the favourite.",
+      "size": "7cm",
+      "nameLimit": "8 characters",
+      "postage": "£2.85 large letter",
+      "details": [
+        "Gold mirror acrylic, 7cm, hanging ribbon included",
+        "Name cut in vinyl, up to 8 characters",
+        "Made to order in London",
+        "Peel the protective film off the back before hanging. Wipe gently; the mirror finish scratches easily"
+      ],
+      "personalisationNote": "Please enter the name, up to 8 characters. We copy spelling and capitals as typed. No proof is sent.",
+      "perfectFor": [
+        "Children",
+        "Siblings",
+        "Stocking fillers"
+      ],
+      "personalise": [],
+      "options": [],
+      "stripeUrl": "",
+      "etsyUrl": "https://zawadilondon.etsy.com"
+    },
+    {
+      "slug": "family-name-sign",
+      "name": "Family Name Sign",
+      "collection": "christmas",
+      "tagline": "Natural wood, your family name and the year it all began.",
+      "price": 17,
+      "priceNote": "",
+      "available": true,
+      "featured": false,
+      "designer": false,
+      "image": "",
+      "gallery": [],
+      "video": "",
+      "description": "Your family name, and the year it all began. A natural wood sign personalised with your family name and the year you were established: married, moved in or became a family. It suits a hallway, a front door or the mantelpiece, all year round.",
+      "size": "19.9 × 9.9cm",
+      "nameLimit": "14 characters + year",
+      "postage": "£2.85 large letter",
+      "details": [
+        "Natural plywood, 19.9 × 9.9cm, jute rope for hanging",
+        "Family name and year in vinyl, up to 14 characters for the name (e.g. The Mensahs)",
+        "Made to order in London",
+        "For indoor use. Wipe with a dry cloth"
+      ],
+      "personalisationNote": "Please enter your family name and year, e.g. The Mensahs, 2018. Up to 14 characters for the name. We copy spelling as typed. No proof is sent.",
+      "perfectFor": [
+        "New homes",
+        "Weddings",
+        "Family Christmas"
+      ],
+      "personalise": [],
+      "options": [],
+      "stripeUrl": "",
+      "etsyUrl": "https://zawadilondon.etsy.com"
+    },
+    {
+      "slug": "santa-stop-here-door-hanger",
+      "name": "Santa Stop Here Door Hanger",
+      "collection": "christmas",
+      "tagline": "Natural wood, SANTA STOP HERE and your child's name, for the bedroom door on Christmas Eve.",
+      "price": 9.5,
+      "priceNote": "",
+      "available": true,
+      "featured": false,
+      "designer": false,
+      "image": "",
+      "gallery": [],
+      "video": "",
+      "description": "So Santa knows exactly which door is theirs. A natural wood door hanger reading SANTA STOP HERE above your child's name. Hang it on the bedroom door on Christmas Eve, then keep it for next year. It fits a Christmas Eve box perfectly.",
+      "size": "8.1 × 19.1cm",
+      "nameLimit": "8 characters",
+      "postage": "£2.85 large letter",
+      "details": [
+        "Natural plywood, 8.1 × 19.1cm, fits standard door handles",
+        "Name cut in vinyl, up to 8 characters",
+        "Made to order in London",
+        "For indoor use. Wipe with a dry cloth"
+      ],
+      "personalisationNote": "Please enter your child's name, up to 8 characters. We copy spelling and capitals as typed. No proof is sent.",
+      "perfectFor": [
+        "Christmas Eve boxes",
+        "Children's bedrooms"
+      ],
+      "personalise": [],
+      "options": [],
+      "stripeUrl": "",
+      "etsyUrl": "https://zawadilondon.etsy.com"
+    },
+    {
+      "slug": "stocking-name-tag",
+      "name": "Stocking Name Tag",
+      "collection": "christmas",
+      "tagline": "Natural wood, a name and the year, tied on with twine. One for every stocking in the house.",
+      "price": 5,
+      "priceNote": "",
+      "available": true,
+      "featured": false,
+      "designer": false,
+      "image": "",
+      "gallery": [],
+      "video": "",
+      "description": "A name on every stocking, so nobody mixes them up on Christmas morning. A natural wood pennant personalised with a name and the year, tied on with jute twine. Order one for each person and the whole family matches.",
+      "size": "6.7 × 11.9cm",
+      "nameLimit": "8 characters",
+      "postage": "£2.85 large letter",
+      "details": [
+        "Natural plywood, 6.7 × 11.9cm, jute twine for tying",
+        "Name and year in vinyl, up to 8 characters per name",
+        "Ordering several? List one name per tag and set the quantity to match",
+        "Made to order in London"
+      ],
+      "personalisationNote": "Please enter the name, up to 8 characters. Ordering several? List one name per tag, separated by commas. We copy spelling as typed. No proof is sent.",
+      "perfectFor": [
+        "The whole family",
+        "Stockings",
+        "Gift tags"
+      ],
+      "personalise": [],
+      "options": [],
+      "stripeUrl": "",
+      "etsyUrl": "https://zawadilondon.etsy.com"
+    },
+    {
       "slug": "zawadi-frame",
       "name": "The Zawadi Frame",
       "tagline": "A personalised frame for the moment you want to keep.",
@@ -17,13 +220,37 @@
       ],
       "video": "/assets/video/riddhi.mp4",
       "description": "Your photo, framed with the names, date and words that make it yours. Thoughtfully designed in London and made especially for you — a gift for a new baby, a newly married couple, a graduate, or anyone with a moment worth keeping.",
-      "perfectFor": ["Birth announcements", "Weddings", "Graduations", "Favourite photos"],
-      "personalise": ["Your photo", "Names", "Date", "A short line of text"],
-      "options": [
-        { "name": "Frame", "choices": ["White", "Black"] },
-        { "name": "Finish", "choices": ["Gold lettering", "Pearl detail"] }
+      "perfectFor": [
+        "Birth announcements",
+        "Weddings",
+        "Graduations",
+        "Favourite photos"
       ],
-      "etsyUrl": "https://zawadilondon.etsy.com"
+      "personalise": [
+        "Your photo",
+        "Names",
+        "Date",
+        "A short line of text"
+      ],
+      "options": [
+        {
+          "name": "Frame",
+          "choices": [
+            "White",
+            "Black"
+          ]
+        },
+        {
+          "name": "Finish",
+          "choices": [
+            "Gold lettering",
+            "Pearl detail"
+          ]
+        }
+      ],
+      "etsyUrl": "https://zawadilondon.etsy.com",
+      "collection": "",
+      "stripeUrl": ""
     },
     {
       "slug": "stitched-picture",
@@ -38,12 +265,31 @@
       "gallery": [],
       "video": "",
       "description": "A favourite photo brought to life with hand-stitched details — a name, a date or a few words, sewn by hand so the moment has texture as well as colour.",
-      "perfectFor": ["New babies", "Anniversaries", "Memorials", "Favourite photos"],
-      "personalise": ["Your photo", "Names", "Date", "Thread colour"],
-      "options": [
-        { "name": "Stitching", "choices": ["Name", "Name and date", "Short message"] }
+      "perfectFor": [
+        "New babies",
+        "Anniversaries",
+        "Memorials",
+        "Favourite photos"
       ],
-      "etsyUrl": "https://zawadilondon.etsy.com"
+      "personalise": [
+        "Your photo",
+        "Names",
+        "Date",
+        "Thread colour"
+      ],
+      "options": [
+        {
+          "name": "Stitching",
+          "choices": [
+            "Name",
+            "Name and date",
+            "Short message"
+          ]
+        }
+      ],
+      "etsyUrl": "https://zawadilondon.etsy.com",
+      "collection": "",
+      "stripeUrl": ""
     },
     {
       "slug": "embroidered-picture",
@@ -58,12 +304,42 @@
       "gallery": [],
       "video": "",
       "description": "Your picture with embroidered details added by hand — delicate flowers, initials or a little motif that makes it unmistakably yours.",
-      "perfectFor": ["Weddings", "Birthdays", "Family portraits", "Gifts"],
-      "personalise": ["Your photo", "Initials or names", "Motif", "Thread colour"],
-      "options": [
-        { "name": "Embroidery", "choices": ["Initials", "Floral border", "Custom motif"] }
+      "perfectFor": [
+        "Weddings",
+        "Birthdays",
+        "Family portraits",
+        "Gifts"
       ],
-      "etsyUrl": "https://zawadilondon.etsy.com"
+      "personalise": [
+        "Your photo",
+        "Initials or names",
+        "Motif",
+        "Thread colour"
+      ],
+      "options": [
+        {
+          "name": "Embroidery",
+          "choices": [
+            "Initials",
+            "Floral border",
+            "Custom motif"
+          ]
+        }
+      ],
+      "etsyUrl": "https://zawadilondon.etsy.com",
+      "collection": "",
+      "stripeUrl": ""
+    }
+  ],
+  "collections": [
+    {
+      "slug": "christmas",
+      "name": "The Christmas Collection",
+      "showOnHome": true,
+      "intro": "Some Christmases are worth keeping. A first one together. A first one as a family. The year the stockings had a new name on them.",
+      "intro2": "The Christmas Collection turns those moments into keepsakes you bring out every December: pearl-filled baubles, a gold mirror disc and natural wood signs, each personalised by hand in London.",
+      "orderBy": "",
+      "processing": ""
     }
   ]
 }

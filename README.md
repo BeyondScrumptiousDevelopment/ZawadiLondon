@@ -52,6 +52,14 @@ The site is live as the Pages project **zawadildn** (https://zawadildn.pages.dev
 
 Products marked **Show on the home page** appear under "Our pieces". Every visible product appears in the Shop and gets its own page at `product.html?p=<url-name>`. Turn on **Show the live "Picture yours" preview** for products where the frame preview makes sense.
 
+
+### Collections, the Christmas Collection and Stripe
+
+- **Collections** (e.g. *The Christmas Collection*) are edited on the CMS **Collections** screen: name, intro, *Order-by date* (shows a banner across the collection when filled in) and *Making time*. Untick **Feature on the home page** after Christmas to hide the home-page section.
+- Put a product in a collection by typing the collection's URL name (`christmas`) in its **Collection** field. Leave it empty for all-year keepsakes.
+- To retire a product, untick **Show on the website**; delete it to remove it for good. Add photos whenever they're ready. Until then, the product shows a green Z Ldn tile.
+- **Stripe:** paste a Stripe **Payment Link** into a product's *Stripe payment link* field and a **Buy now** button appears, with Etsy kept as a second option. When you create the Payment Link in Stripe, add a **custom text field** (e.g. "Name for personalisation", with the product's character limit), turn on **collect shipping address**, and add the postage as a shipping rate.
+
 > **To do:** the **Stitched Pictures** and **Embroidered Pictures** entries have draft text, no photos and "Price on request". Fill them in from the CMS.
 
 ## 3. Connect the live Instagram feed

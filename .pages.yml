@@ -21,6 +21,7 @@ content:
         fields:
           - { name: name, label: Product name, type: string, required: true }
           - { name: slug, label: URL name (lowercase, dashes, no spaces), type: string, required: true }
+          - { name: collection, label: Collection URL name (e.g. christmas; leave empty for all-year keepsakes), type: string }
           - { name: tagline, label: One-line description, type: string }
           - { name: price, label: Price in £ (leave empty for "price on request"), type: number }
           - { name: priceNote, label: Price note (e.g. "From £35" or "Price on request"), type: string }
@@ -31,6 +32,11 @@ content:
           - { name: gallery, label: More photos, type: image, list: true }
           - { name: video, label: Video (MP4 path, optional), type: string }
           - { name: description, label: Description, type: text }
+          - { name: details, label: Details (one point per line), type: string, list: true }
+          - { name: size, label: Size (e.g. 6.9cm), type: string }
+          - { name: nameLimit, label: Name limit (e.g. 10 characters), type: string }
+          - { name: postage, label: Postage (e.g. £3.65 small parcel), type: string }
+          - { name: personalisationNote, label: Personalisation instructions, type: text }
           - { name: perfectFor, label: Perfect for, type: string, list: true }
           - { name: personalise, label: You choose, type: string, list: true }
           - name: options
@@ -40,4 +46,17 @@ content:
             fields:
               - { name: name, label: Option name (e.g. Frame), type: string }
               - { name: choices, label: Choices, type: string, list: true }
+          - { name: stripeUrl, label: Stripe payment link (shows a "Buy now" button), type: string }
           - { name: etsyUrl, label: Etsy link for this product, type: string, default: "https://zawadilondon.etsy.com" }
+      - name: collections
+        label: Collections
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Collection name, type: string, required: true }
+          - { name: slug, label: URL name (used by products' Collection field), type: string, required: true }
+          - { name: showOnHome, label: Feature on the home page, type: boolean, default: true }
+          - { name: intro, label: Intro, type: text }
+          - { name: intro2, label: Second paragraph, type: text }
+          - { name: orderBy, label: "Order-by date (e.g. 15 December; shows a banner when filled in)", type: string }
+          - { name: processing, label: "Making time (e.g. 3–5 working days)", type: string }

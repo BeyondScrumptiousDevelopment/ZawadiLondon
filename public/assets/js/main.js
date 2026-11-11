@@ -314,45 +314,107 @@
     });
   }
 
-  var productsPromise = null;
-  function loadProducts() {
-    if (!productsPromise) {
-      productsPromise = fetch("content/products.json", { cache: "no-cache" })
+  var dataPromise = null;
+  function loadData() {
+    if (!dataPromise) {
+      dataPromise = fetch("content/products.json", { cache: "no-cache" })
         .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-        .then(function (d) { return (d.products || []).filter(function (p) { return p.available !== false && p.slug; }); });
+        .then(function (d) {
+          return {
+            products: (d.products || []).filter(function (p) { return p.available !== false && p.slug; }),
+            collections: d.collections || []
+          };
+        });
     }
-    return productsPromise;
+    return dataPromise;
+  }
+  function loadProducts() { return loadData().then(function (d) { return d.products; }); }
+  function findCollection(d, slug) { return d.collections.filter(function (c) { return c.slug === slug; })[0]; }
+  function orderByBanner(c) {
+    if (!c || !c.orderBy) return "";
+    return '<p class="order-by reveal">Order by ' + esc(c.orderBy) + " for Christmas delivery · Every piece is made to order in London</p>";
+  }
+  function cardsHtml(list) {
+    return list.map(function (p, i) {
+      var media = p.image ? '<img src="' + esc(asset(p.image)) + '" alt="' + esc(p.name) + '" loading="lazy">' : placeholder(p);
+      return '<a class="card reveal" data-delay="' + (i % 4) + '" href="product.html?p=' + encodeURIComponent(p.slug) + '">' +
+        '<div class="card-media">' + media + "</div>" +
+        '<div class="card-body"><h3>' + esc(p.name) + "</h3><p>" + esc(p.tagline) + "</p>" +
+        '<span class="card-foot"><span class="card-price">' + esc(priceText(p)) + '</span><span class="card-go">View →</span></span></div></a>';
+    }).join("");
+  }
+  function failNote(el) {
+    el.innerHTML = '<p class="lead">See everything we make in our <a href="' + ETSY_URL + '" target="_blank" rel="noopener">Etsy shop</a>.</p>';
   }
 
-  /* Product cards: data-products="all" or "featured" */
+  /* Product cards: data-products="all" | "featured" | "collection:<slug>" | "keepsakes" */
   $$("[data-products]").forEach(function (grid) {
     var mode = grid.getAttribute("data-products");
     loadProducts().then(function (list) {
       if (mode === "featured") list = list.filter(function (p) { return p.featured; });
+      else if (mode === "keepsakes") list = list.filter(function (p) { return !p.collection; });
+      else if (mode.indexOf("collection:") === 0) { var cs = mode.slice(11); list = list.filter(function (p) { return p.collection === cs; }); }
       if ($("[data-product-page]")) {
         var cur = new URLSearchParams(location.search).get("p") || "zawadi-frame";
+        var curP = list.filter(function (p) { return p.slug === cur; })[0];
         list = list.filter(function (p) { return p.slug !== cur; });
+        /* show pieces from the same collection first */
+        if (curP) list.sort(function (a, b) { return (b.collection === curP.collection) - (a.collection === curP.collection); });
+        list = list.slice(0, 6);
       }
-      grid.innerHTML = list.map(function (p, i) {
-        var media = p.image ? '<img src="' + esc(asset(p.image)) + '" alt="' + esc(p.name) + '" loading="lazy">' : placeholder(p);
-        return '<a class="card reveal" data-delay="' + (i % 4) + '" href="product.html?p=' + encodeURIComponent(p.slug) + '">' +
-          '<div class="card-media">' + media + "</div>" +
-          '<div class="card-body"><h3>' + esc(p.name) + "</h3><p>" + esc(p.tagline) + "</p>" +
-          '<span class="card-foot"><span class="card-price">' + esc(priceText(p)) + '</span><span class="card-go">View →</span></span></div></a>';
-      }).join("");
+      if (!list.length) { var hideMe = grid.closest("[data-hide-empty]"); if (hideMe) hideMe.hidden = true; grid.innerHTML = ""; return; }
+      grid.innerHTML = cardsHtml(list);
       revealNew(grid);
-    }).catch(function () {
-      grid.innerHTML = '<p class="lead">See everything we make in our <a data-etsy href="' + ETSY_URL + '">Etsy shop</a>.</p>';
-    });
+    }).catch(function () { failNote(grid); });
+  });
+
+  /* Home-page collection teaser: <section data-collection-teaser="christmas"> */
+  $$("[data-collection-teaser]").forEach(function (sec) {
+    var slug = sec.getAttribute("data-collection-teaser");
+    loadData().then(function (d) {
+      var c = findCollection(d, slug);
+      var items = d.products.filter(function (p) { return p.collection === slug; });
+      if (!c || c.showOnHome === false || !items.length) { sec.hidden = true; return; }
+      var banner = $("[data-order-by]", sec); if (banner) banner.outerHTML = orderByBanner(c);
+      $("[data-teaser-cards]", sec).innerHTML = cardsHtml(items.slice(0, 3));
+      revealNew(sec);
+    }).catch(function () { sec.hidden = true; });
+  });
+
+  /* Shop page: every collection, then keepsakes */
+  $$("[data-shop]").forEach(function (shop) {
+    loadData().then(function (d) {
+      var html = "";
+      d.collections.forEach(function (c) {
+        var items = d.products.filter(function (p) { return p.collection === c.slug; });
+        if (!items.length) return;
+        html += '<div class="shop-group" id="' + esc(c.slug) + '">' +
+          '<div class="shop-group-head"><span class="eyebrow reveal">Collection</span><h2 class="section-title reveal">' + esc(c.name) + "</h2>" +
+          (c.intro ? '<p class="lead reveal">' + esc(c.intro) + "</p>" : "") +
+          (c.intro2 ? '<p class="reveal">' + esc(c.intro2) + "</p>" : "") +
+          orderByBanner(c) + "</div>" +
+          '<div class="cards">' + cardsHtml(items) + "</div></div>";
+      });
+      var keep = d.products.filter(function (p) { return !p.collection; });
+      if (keep.length) {
+        html += '<div class="shop-group" id="keepsakes"><div class="shop-group-head"><span class="eyebrow reveal">All year round</span><h2 class="section-title reveal">Keepsakes</h2>' +
+          '<p class="lead reveal">Personalised frames, stitched and embroidered pictures — each one made especially for you.</p></div>' +
+          '<div class="cards">' + cardsHtml(keep) + "</div></div>";
+      }
+      shop.innerHTML = html;
+      revealNew(shop);
+      if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+    }).catch(function () { failNote(shop); });
   });
 
   /* Single product page: product.html?p=slug */
   var pp = $("[data-product-page]");
   if (pp) {
     var slug = new URLSearchParams(location.search).get("p") || "zawadi-frame";
-    loadProducts().then(function (list) {
-      var p = list.filter(function (x) { return x.slug === slug; })[0];
+    loadData().then(function (d) {
+      var p = d.products.filter(function (x) { return x.slug === slug; })[0];
       if (!p) { pp.innerHTML = '<div class="center"><h1 class="section-title">We couldn’t find that piece</h1><p><a class="link" href="shop.html">See everything we make</a></p></div>'; return; }
+      var col = p.collection ? findCollection(d, p.collection) : null;
       document.title = p.name + " | Zawadi London";
       var md = $('meta[name="description"]'); if (md) md.setAttribute("content", p.tagline || p.description || "");
       var etsy = p.etsyUrl || ETSY_URL;
@@ -376,25 +438,46 @@
         }).join("") + "</div></fieldset>";
       }).join("");
 
+      var details = (p.details || []).filter(Boolean);
+      var detailsHtml = details.length ? '<ul class="details reveal">' + details.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : "";
+
       var spec = "";
+      if (p.size) spec += "<li><span>Size</span><span>" + esc(p.size) + "</span></li>";
+      if (p.nameLimit) spec += "<li><span>Name</span><span>Up to " + esc(p.nameLimit) + "</span></li>";
       if (p.perfectFor && p.perfectFor.length) spec += "<li><span>Perfect for</span><span>" + p.perfectFor.map(esc).join(" · ") + "</span></li>";
       if (p.personalise && p.personalise.length) spec += "<li><span>You choose</span><span>" + p.personalise.map(esc).join(" · ") + "</span></li>";
+      if (col && col.processing) spec += "<li><span>Made in</span><span>" + esc(col.processing) + "</span></li>";
+      if (p.postage) spec += "<li><span>Postage</span><span>" + esc(p.postage) + "</span></li>";
       spec += "<li><span>Price</span><span>" + esc(priceText(p)) + "</span></li>";
+
+      var note = p.personalisationNote ? '<div class="pnote reveal"><b>Personalisation</b><p>' + esc(p.personalisationNote) + "</p></div>" : "";
+
+      var buttons;
+      if (p.stripeUrl) {
+        buttons = '<a class="btn" href="' + esc(p.stripeUrl) + '" target="_blank" rel="noopener">Buy now · ' + esc(priceText(p)) + ' <span class="arrow">→</span></a>' +
+          '<a class="btn btn--ghost" href="' + esc(etsy) + '" target="_blank" rel="noopener">Or order on Etsy</a>';
+      } else {
+        buttons = '<a class="btn" href="' + esc(etsy) + '" target="_blank" rel="noopener">Order on Etsy <span class="arrow">→</span></a>';
+      }
+      if (opts) buttons += '<button type="button" class="btn btn--ghost" data-copy-opts>Copy my choices</button><span class="copied" role="status">Copied</span>';
+      else if (!p.stripeUrl) buttons += '<a class="btn btn--ghost" href="contact.html">Enquire</a>';
+      var payNote = p.stripeUrl ? '<p class="caption reveal" style="margin-top:14px">Secure checkout by Stripe. You’ll add the name at checkout.</p>' : "";
 
       pp.innerHTML =
         '<div class="product" data-product>' +
           '<div><div class="product-main img-reveal">' + mainHtml + "</div>" + thumbs + "</div>" +
           '<div class="product-info">' +
-            '<span class="eyebrow reveal">Personalised keepsake</span>' +
+            '<span class="eyebrow reveal">' + esc(col ? col.name : "Personalised keepsake") + "</span>" +
             '<h1 class="section-title reveal">' + esc(p.name) + "</h1>" +
             '<p class="price reveal">' + esc(priceText(p)) + "</p>" +
+            orderByBanner(col) +
             (p.tagline ? '<p class="lead reveal">' + esc(p.tagline) + "</p>" : "") +
             (p.description ? '<p class="reveal">' + esc(p.description) + "</p>" : "") +
+            detailsHtml +
             (opts ? '<div class="reveal opts">' + opts + "</div>" : "") +
             '<ul class="spec reveal">' + spec + "</ul>" +
-            '<div class="btn-row reveal"><a class="btn" href="' + esc(etsy) + '" target="_blank" rel="noopener">Order on Etsy <span class="arrow">→</span></a>' +
-            (opts ? '<button type="button" class="btn btn--ghost" data-copy-opts>Copy my choices</button><span class="copied" role="status">Copied</span>' : '<a class="btn btn--ghost" href="contact.html">Enquire</a>') +
-            "</div>" +
+            note +
+            '<div class="btn-row reveal">' + buttons + "</div>" + payNote +
             '<p class="caption reveal" style="margin-top:24px">Want something a little different? <a href="contact.html">Make a custom enquiry.</a></p>' +
           "</div></div>";
 
@@ -411,9 +494,7 @@
 
       var ds = $("#designer-section"); if (ds) ds.hidden = !p.designer;
       $$("[data-product-only]").forEach(function (el) { el.hidden = !p.designer; });
-    }).catch(function () {
-      pp.innerHTML = '<div class="center"><p class="lead">See everything we make in our <a href="' + ETSY_URL + '">Etsy shop</a>.</p></div>';
-    });
+    }).catch(function () { failNote(pp); });
   }
 
   /* ---------- Live Instagram feed (Cloudflare function /api/instagram) ---------- */
