@@ -544,3 +544,4 @@ p { margin: 0 0 var(--space-2); }
 @media (min-width: 900px) { .teaser-head { grid-template-columns: 1fr 1fr; align-items: end; } }
 .teaser-head p { margin: 0; }
 .on-green .card-media .ph { border: 1px solid var(--hairline); }
+.credit a { display: inline-block; padding: 14px 6px; margin: -14px -6px; }
