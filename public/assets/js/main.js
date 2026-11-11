@@ -281,7 +281,7 @@
         var src = t.getAttribute("data-src"), alt = $("img", t).alt;
         var isVid = /\.mp4$/.test(src);
         var el = isVid ? document.createElement("video") : new Image();
-        if (isVid) { el.muted = true; el.loop = true; el.playsInline = true; el.autoplay = !reduceMotion; el.setAttribute("aria-label", alt); el.poster = src.replace(".mp4", ".jpg"); }
+        if (isVid) { el.muted = true; el.loop = true; el.playsInline = true; el.autoplay = !reduceMotion; el.setAttribute("aria-label", alt); var pst = posterFor(src); if (pst) el.poster = pst; }
         else el.alt = alt;
         el.src = src; el.style.opacity = "0";
         main.appendChild(el);
@@ -298,7 +298,13 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
-  function asset(p) { return p ? String(p).replace(/^\//, "") : ""; }
+  function asset(p, w) {
+    if (!p) return "";
+    p = String(p);
+    if (p.indexOf("cdn.sanity.io/images/") > -1) return p + (p.indexOf("?") > -1 ? "&" : "?") + "w=" + (w || 1400) + "&fit=max&auto=format";
+    return p.replace(/^\//, "");
+  }
+  function posterFor(src) { return /^https?:/.test(src) ? "" : src.replace(/\.mp4$/, ".jpg"); }
   function priceText(p) {
     if (typeof p.price === "number" && p.price > 0) return "£" + (p.price % 1 ? p.price.toFixed(2) : p.price);
     return p.priceNote || "Price on request";
@@ -314,15 +320,41 @@
     });
   }
 
+  /* Products come from Sanity (content/sanity.json holds the project ID).
+     Until Sanity is set up, or if it can't be reached, content/products.json is used. */
+  var GROQ = '{' +
+    '"products": *[_type == "product" && !(_id in path("drafts.**"))] | order(coalesce(order, 999) asc, _createdAt asc) {' +
+      '"slug": slug.current, name, "collection": collection->slug.current, tagline, price, priceNote, available, featured, designer,' +
+      '"image": image.asset->url, "gallery": gallery[].asset->url, "video": videoFile.asset->url,' +
+      'description, details, size, nameLimit, postage, personalisationNote, perfectFor, personalise,' +
+      '"options": options[]{name, choices}, etsyUrl },' +
+    '"collections": *[_type == "collection" && !(_id in path("drafts.**"))] | order(coalesce(order, 999) asc) {' +
+      'name, "slug": slug.current, showOnHome, intro, intro2, orderBy, processing }' +
+  '}';
+  function getJSON(url) {
+    return fetch(url, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+  }
+  function fromSanity() {
+    return getJSON("content/sanity.json").then(function (cfg) {
+      if (!cfg || !cfg.projectId) throw new Error("no-sanity");
+      var url = "https://" + cfg.projectId + ".apicdn.sanity.io/v2025-02-19/data/query/" +
+        encodeURIComponent(cfg.dataset || "production") + "?query=" + encodeURIComponent(GROQ);
+      return getJSON(url).then(function (res) {
+        var d = res && res.result;
+        if (!d || !d.products || !d.products.length) throw new Error("sanity-empty");
+        return d;
+      });
+    });
+  }
   var dataPromise = null;
   function loadData() {
     if (!dataPromise) {
-      dataPromise = fetch("content/products.json", { cache: "no-cache" })
-        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      dataPromise = fromSanity()
+        .catch(function () { return getJSON("content/products.json"); })
         .then(function (d) {
           return {
-            products: (d.products || []).filter(function (p) { return p.available !== false && p.slug; }),
-            collections: d.collections || []
+            products: (d.products || []).filter(function (p) { return p && p.available !== false && p.slug; }),
+            collections: (d.collections || []).filter(function (c) { return c && c.slug; })
           };
         });
     }
@@ -336,7 +368,7 @@
   }
   function cardsHtml(list) {
     return list.map(function (p, i) {
-      var media = p.image ? '<img src="' + esc(asset(p.image)) + '" alt="' + esc(p.name) + '" loading="lazy">' : placeholder(p);
+      var media = p.image ? '<img src="' + esc(asset(p.image, 900)) + '" alt="' + esc(p.name) + '" loading="lazy">' : placeholder(p);
       return '<a class="card reveal" data-delay="' + (i % 4) + '" href="product.html?p=' + encodeURIComponent(p.slug) + '">' +
         '<div class="card-media">' + media + "</div>" +
         '<div class="card-body"><h3>' + esc(p.name) + "</h3><p>" + esc(p.tagline) + "</p>" +
@@ -420,16 +452,16 @@
       var etsy = p.etsyUrl || ETSY_URL;
 
       var media = [];
-      if (p.image) media.push({ src: asset(p.image), alt: p.name });
-      if (p.video) media.push({ src: asset(p.video), alt: "Video: " + p.name, video: true });
-      (p.gallery || []).forEach(function (g) { if (g) media.push({ src: asset(g), alt: p.name }); });
+      if (p.image) media.push({ src: asset(p.image), thumb: asset(p.image, 300), alt: p.name });
+      if (p.video) media.push({ src: asset(p.video), thumb: posterFor(asset(p.video)) || (p.image ? asset(p.image, 300) : ""), alt: "Video: " + p.name, video: true });
+      (p.gallery || []).forEach(function (g) { if (g) media.push({ src: asset(g), thumb: asset(g, 300), alt: p.name }); });
 
       var first = media[0];
       var mainHtml = !first ? placeholder(p) : first.video
-        ? '<video muted loop playsinline autoplay poster="' + esc(first.src.replace(".mp4", ".jpg")) + '" src="' + esc(first.src) + '"></video>'
+        ? '<video muted loop playsinline autoplay' + (posterFor(first.src) ? ' poster="' + esc(posterFor(first.src)) + '"' : '') + ' src="' + esc(first.src) + '"></video>'
         : '<img src="' + esc(first.src) + '" alt="' + esc(first.alt) + '">';
       var thumbs = media.length > 1 ? '<div class="thumbs">' + media.map(function (m, i) {
-        return '<button type="button" data-src="' + esc(m.src) + '" aria-pressed="' + (i === 0) + '" aria-label="Show: ' + esc(m.alt) + '"' + (m.video ? ' class="play"' : "") + '><img src="' + esc(m.video ? m.src.replace(".mp4", ".jpg") : m.src) + '" alt="" loading="lazy"></button>';
+        return '<button type="button" data-src="' + esc(m.src) + '" aria-pressed="' + (i === 0) + '" aria-label="Show: ' + esc(m.alt) + '"' + (m.video ? ' class="play"' : "") + '>' + (m.thumb ? '<img src="' + esc(m.thumb) + '" alt="" loading="lazy">' : '') + '</button>';
       }).join("") + "</div>" : "";
 
       var opts = (p.options || []).filter(function (o) { return o && o.name && o.choices && o.choices.length; }).map(function (o, k) {
