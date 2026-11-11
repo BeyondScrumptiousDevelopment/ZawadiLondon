@@ -8,7 +8,7 @@ The Zawadi London website, built from the Zawadi London brand kit (Zawadi Green 
 - **Interactive bits:** looping product videos, scroll reveals, a scroll-lit "Your Moment. Your Story. Your ZAWADI." statement, the live **Picture yours** frame preview (choose a photo and frame colour, type a name and date), a lightbox gallery, an FAQ, and a contact form.
 - **Products come from a CMS:** they live in `public/content/products.json`, which you edit in Pages CMS (see below).
 - **Live Instagram feed:** "See our recent work" shows the latest @zawadildn posts through a Cloudflare Pages Function. Until it's connected, it shows the four brand posts.
-- **Link page** for the Instagram bio: `/links` (e.g. https://zawadildn.pages.dev/links). It pulls products from the CMS and the live Instagram feed too.
+- **Link page** for the Instagram bio: `/links` (e.g. https://zawadildn.pages.dev/links), with Etsy, Instagram and email.
 - **Orders** go to Etsy: https://zawadilondon.etsy.com
 
 ```

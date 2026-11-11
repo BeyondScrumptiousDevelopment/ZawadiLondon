@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#023624">
 <meta property="og:title" content="Zawadi London">
 <meta property="og:description" content="Made from moments… Made to cherish…">
-<meta property="og:image" content="assets/img/photos/siblings.jpg">
+<meta property="og:image" content="assets/img/brand/post-tagline.jpg">
 <link rel="icon" type="image/png" href="assets/img/brand/favicon.png">
 <link rel="apple-touch-icon" href="assets/img/brand/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +34,12 @@
   img, video { display: block; max-width: 100%; height: auto; }
   :focus-visible { outline: 1.5px solid var(--white); outline-offset: 4px; }
 
-  .page { width: 100%; max-width: 480px; margin: 0 auto; padding: max(28px, env(safe-area-inset-top)) 16px max(32px, env(safe-area-inset-bottom)); position: relative; }
+  .page { width: 100%; max-width: 440px; min-height: 100svh; margin: 0 auto; padding: max(20px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom)); position: relative; display: flex; flex-direction: column; }
+  .intro { margin-top: auto; }
+  .foot { margin-top: auto; }
+  .lockup { display: block; width: 168px; margin: 0 auto 28px; }
+  .lockup img { width: 100%; }
+  .statement { font-size: 19px !important; white-space: nowrap; letter-spacing: .01em; font-weight: 300; color: var(--white) !important; margin-bottom: 10px !important; }
 
   /* Big faint Z behind everything */
   .bg-z { position: fixed; width: 150vw; max-width: 900px; left: 50%; top: 46%; transform: translate(-50%, -50%); opacity: .045; pointer-events: none; z-index: 0; }
@@ -57,13 +62,13 @@
   .hero-tag b { font-weight: 400; font-size: 26px; }
   .hero-tag span { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
 
-  .intro { text-align: center; margin-bottom: 28px; }
+  .intro { text-align: center; margin-bottom: 36px; }
   .intro h1 { margin: 0; font-weight: 300; font-size: 15px; letter-spacing: .3em; text-transform: uppercase; }
   .intro .tagline { margin: 10px 0 6px; font-style: italic; font-weight: 300; font-size: 32px; line-height: 1.25; }
   .intro p { margin: 0; color: var(--muted); font-size: 18px; }
 
   /* Links */
-  .links { list-style: none; margin: 0 0 32px; padding: 0; display: grid; gap: 12px; }
+  .links { list-style: none; margin: 0 0 48px; padding: 0; display: grid; gap: 12px; }
   .link {
     position: relative; display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 10px 18px 10px 10px;
     text-decoration: none; border: 1px solid var(--hairline); border-radius: 2px; overflow: hidden; isolation: isolate;
@@ -133,65 +138,32 @@
 <img class="bg-z" src="assets/img/brand/mark-white.png" alt="" aria-hidden="true">
 <main class="page">
   <div class="top rise" style="--i:0">
-    <a href="index.html" aria-label="Zawadi London website"><img src="assets/img/brand/mark-white.png" alt="Zawadi London" width="46" height="44"></a>
+    <span></span>
     <button class="share" type="button" aria-label="Share this page">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5M5 12v7.5h14V12"/></svg>
     </button>
   </div>
 
-  <div class="hero rise" style="--i:1">
-    <video autoplay muted loop playsinline preload="auto" poster="assets/video/riddhi.jpg" aria-label="A personalised newborn frame with the name RIDDHI in gold">
-      <source src="assets/video/riddhi.mp4" type="video/mp4">
-    </video>
-    <div class="hero-tag"><b>£50</b><span>The Zawadi Frame</span></div>
-  </div>
-
-  <div class="intro rise" style="--i:2">
-    <h1>Zawadi London</h1>
-    <p class="tagline">Made from moments…<br>Made to cherish…</p>
-    <p>Personalised frames, stitched and embroidered pictures — made especially for you.</p>
+  <div class="intro">
+    <a class="lockup rise" style="--i:1" href="index.html" aria-label="Zawadi London website"><img src="assets/img/brand/lockup-white.png" alt="Zawadi London" width="691" height="782"></a>
+    <p class="tagline rise" style="--i:2">Made from moments…<br>Made to cherish…</p>
+    <p class="rise" style="--i:3">Personalised keepsakes, made especially for you.</p>
   </div>
 
   <ul class="links">
-    <li class="rise" style="--i:3"><a class="link link--main" href="https://zawadilondon.etsy.com" target="_blank" rel="noopener">
+    <li class="rise" style="--i:4"><a class="link link--main" href="https://zawadilondon.etsy.com" target="_blank" rel="noopener">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span>
       <span class="txt"><b>Order on Etsy</b><small>zawadilondon.etsy.com</small></span><span class="go" aria-hidden="true">→</span></a></li>
-    <li class="rise" style="--i:4"><a class="link" href="shop.html">
-      <span class="ico"><img src="assets/img/photos/siblings.jpg" alt=""></span>
-      <span class="txt"><b>Shop our pieces</b><small>Frames, stitching &amp; embroidery</small></span><span class="go" aria-hidden="true">→</span></a></li>
-    <li class="rise" style="--i:5"><a class="link" href="product.html?p=zawadi-frame#designer-section">
-      <span class="ico"><img src="assets/img/photos/print-baby.jpg" alt=""></span>
-      <span class="txt"><b>Picture yours</b><small>Preview your name on a frame</small></span><span class="go" aria-hidden="true">→</span></a></li>
-    <li class="rise" style="--i:6"><a class="link" href="contact.html">
-      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5Z"/></svg></span>
-      <span class="txt"><b>Custom enquiry</b><small>Weddings, special layouts &amp; more</small></span><span class="go" aria-hidden="true">→</span></a></li>
-    <li class="rise" style="--i:7"><a class="link" href="https://www.instagram.com/zawadildn" target="_blank" rel="noopener">
+    <li class="rise" style="--i:5"><a class="link" href="https://www.instagram.com/zawadildn" target="_blank" rel="noopener">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/></svg></span>
       <span class="txt"><b>Instagram</b><small>@zawadildn</small></span><span class="go" aria-hidden="true">→</span></a></li>
-    <li class="rise" style="--i:8"><a class="link" href="mailto:zawadildn@gmail.com">
+    <li class="rise" style="--i:6"><a class="link" href="mailto:zawadildn@gmail.com">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13"/><path d="m3.5 6 8.5 7 8.5-7"/></svg></span>
       <span class="txt"><b>Email us</b><small>zawadildn@gmail.com</small></span><span class="go" aria-hidden="true">→</span></a></li>
   </ul>
 
-  <section class="rise" style="--i:9" aria-label="Our pieces">
-    <p class="label"><span>Our pieces</span><a href="shop.html">See all</a></p>
-    <div class="pieces" data-pieces>
-      <a class="piece" href="product.html?p=zawadi-frame"><div class="img"><img src="assets/img/photos/riddhi-dark.jpg" alt="The Zawadi Frame" loading="lazy"></div><div class="cap">The Zawadi Frame<span>£50</span></div></a>
-    </div>
-  </section>
-
-  <section class="rise" style="--i:10" aria-label="Recent work">
-    <p class="label"><span>Recent work</span><a href="https://www.instagram.com/zawadildn" target="_blank" rel="noopener">Follow</a></p>
-    <div class="ig" data-ig>
-      <a href="https://www.instagram.com/zawadildn" target="_blank" rel="noopener"><img src="assets/img/photos/sisters.jpg" alt="Big sister holding a newborn, in a black frame" loading="lazy"></a>
-      <a href="https://www.instagram.com/zawadildn" target="_blank" rel="noopener"><img src="assets/img/photos/graduation.jpg" alt="A graduation frame" loading="lazy"></a>
-      <a href="https://www.instagram.com/zawadildn" target="_blank" rel="noopener"><img src="assets/img/photos/siblings-wide.jpg" alt="A siblings frame" loading="lazy"></a>
-    </div>
-  </section>
-
-  <footer class="foot rise" style="--i:11">
-    <div class="signoff"><b>Zawadi</b><small>London</small></div>
-    <p>Your Moment. Your Story. Your ZAWADI.</p>
+  <footer class="foot rise" style="--i:7">
+    <p class="statement">Your Moment. Your Story. Your ZAWADI.</p>
     <p class="credit">Developed &amp; designed by <a href="https://naavcaptured.com" target="_blank" rel="noopener">naavcaptured</a></p>
   </footer>
 </main>
@@ -212,28 +184,6 @@
     if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(shown, shown); else shown();
   });
 
-  /* Products from the CMS */
-  fetch("content/products.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (d) {
-    var list = (d.products || []).filter(function (p) { return p.available !== false && p.slug; });
-    if (!list.length) return;
-    document.querySelector("[data-pieces]").innerHTML = list.map(function (p) {
-      var price = typeof p.price === "number" && p.price > 0 ? "£" + p.price : (p.priceNote || "On request");
-      var img = p.image
-        ? '<img src="' + esc(String(p.image).replace(/^\//, "")) + '" alt="' + esc(p.name) + '" loading="lazy">'
-        : '<div class="ph"><img src="assets/img/brand/mark-white.png" alt=""><em>' + esc(p.name) + "</em></div>";
-      return '<a class="piece" href="product.html?p=' + encodeURIComponent(p.slug) + '"><div class="img">' + img + '</div><div class="cap">' + esc(p.name) + "<span>" + esc(price) + "</span></div></a>";
-    }).join("");
-  }).catch(function () {});
-
-  /* Live Instagram (if connected) */
-  fetch("/api/instagram").then(function (r) { return r.ok ? r.json() : { items: [] }; }).then(function (d) {
-    var items = (d.items || []).slice(0, 6);
-    if (items.length < 3) return;
-    document.querySelector("[data-ig]").innerHTML = items.map(function (m) {
-      var cap = m.caption ? m.caption.split("\n")[0] : "Zawadi London on Instagram";
-      return '<a href="' + esc(m.permalink) + '" target="_blank" rel="noopener"><img src="' + esc(m.image) + '" alt="' + esc(cap) + '" loading="lazy"></a>';
-    }).join("");
-  }).catch(function () {});
 })();
 </script>
 </body>
