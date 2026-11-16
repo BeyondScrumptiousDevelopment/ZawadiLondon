@@ -105,7 +105,8 @@ export async function onRequestGet(context) {
   const { env, request } = context;
   const cache = caches.default;
   const cacheKey = new Request(new URL("/api/etsy", request.url).toString());
-  const hit = await cache.match(cacheKey);
+  const fresh = new URL(request.url).searchParams.has("fresh"); // /api/etsy?fresh skips the cache
+  const hit = fresh ? null : await cache.match(cacheKey);
   if (hit) return hit;
 
   const keys = keyVariants(env);
@@ -114,8 +115,18 @@ export async function onRequestGet(context) {
 
   try {
     let { data: shops, key } = await etsy(`/shops?shop_name=${encodeURIComponent(shopName)}`, keys);
-    const shop = (shops.results || []).find((s) => s.shop_name.toLowerCase() === shopName.toLowerCase()) || (shops.results || [])[0];
-    if (!shop) return json({ products: [], collections: [], error: "shop-not-found" }, 300);
+    const results = shops.results || [];
+    const shop = results.find((s) => s.shop_name.toLowerCase() === shopName.toLowerCase());
+    if (!shop) {
+      return json({
+        products: [], collections: [], error: "shop-not-found",
+        searchedFor: shopName, etsyFound: results.slice(0, 5).map((s) => s.shop_name),
+      }, 60);
+    }
+    const shopInfo = {
+      name: shop.shop_name, id: shop.shop_id, url: shop.url ? shop.url.split("?")[0] : "",
+      activeListings: shop.listing_active_count, vacation: !!shop.is_vacation,
+    };
     keys.splice(0, keys.length, key);
 
     const [{ data: secData }, { data: active }] = await Promise.all([
@@ -150,7 +161,14 @@ export async function onRequestGet(context) {
     });
 
     const used = new Set(products.map((p) => p.collection));
-    const res = json({ source: "etsy", products, collections: collections.filter((c) => used.has(c.slug)) }, CACHE_SECONDS);
+    const body = { source: "etsy", shop: shopInfo, products, collections: collections.filter((c) => used.has(c.slug)) };
+    if (!products.length) {
+      body.note = shopInfo.vacation
+        ? "The shop is in vacation mode, so Etsy shows no active listings."
+        : "Etsy returned no active listings for this shop. Drafts, inactive and sold-out listings aren't included.";
+    }
+    // Empty results are only cached briefly, so new listings appear quickly.
+    const res = json(body, products.length ? CACHE_SECONDS : 120);
     context.waitUntil(cache.put(cacheKey, res.clone()));
     return res;
   } catch (e) {
