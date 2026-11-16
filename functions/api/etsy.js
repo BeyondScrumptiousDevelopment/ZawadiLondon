@@ -131,8 +131,29 @@ export async function onRequestGet(context) {
 
     const [{ data: secData }, { data: active }] = await Promise.all([
       etsy(`/shops/${shop.shop_id}/sections`, keys),
-      etsy(`/shops/${shop.shop_id}/listings/active?limit=100&sort_on=created&sort_order=desc`, keys),
+      etsy(`/shops/${shop.shop_id}/listings/active?limit=100`, keys),
     ]);
+    const found = { active: (active.results || []).length };
+    let idList = (active.results || []).map((l) => l.listing_id);
+
+    // Etsy's "active listings" list comes from its search index, which can lag
+    // behind for new listings and new shops. Fall back to featured listings and
+    // section listings, which aren't search-based.
+    if (!idList.length && shop.listing_active_count > 0) {
+      try {
+        const { data: feat } = await etsy(`/shops/${shop.shop_id}/listings/featured?limit=100`, keys);
+        found.featured = (feat.results || []).length;
+        idList = (feat.results || []).map((l) => l.listing_id);
+      } catch (e) { found.featured = "error " + e.message; }
+    }
+    const sectionIds = (secData.results || []).map((x) => x.shop_section_id);
+    if (!idList.length && shop.listing_active_count > 0 && sectionIds.length) {
+      try {
+        const { data: bySec } = await etsy(`/shops/${shop.shop_id}/shop-sections/listings?shop_section_ids=${sectionIds.join(",")}&limit=100`, keys);
+        found.sections = (bySec.results || []).length;
+        idList = (bySec.results || []).map((l) => l.listing_id);
+      } catch (e) { found.sections = "error " + e.message; }
+    }
 
     const sections = {};
     const collections = [];
@@ -142,13 +163,14 @@ export async function onRequestGet(context) {
       collections.push(c);
     });
 
-    const ids = (active.results || []).map((l) => l.listing_id);
+    const ids = [...new Set(idList)];
     let listings = [];
     for (let i = 0; i < ids.length; i += 100) {
       const batch = ids.slice(i, i + 100).join(",");
       const { data } = await etsy(`/listings/batch?listing_ids=${batch}&includes=Images`, keys);
       listings = listings.concat(data.results || []);
     }
+    listings = listings.filter((l) => !l.state || l.state === "active");
     const order = new Map(ids.map((id, i) => [id, i]));
     listings.sort((a, b) => order.get(a.listing_id) - order.get(b.listing_id));
 
@@ -162,10 +184,13 @@ export async function onRequestGet(context) {
 
     const used = new Set(products.map((p) => p.collection));
     const body = { source: "etsy", shop: shopInfo, products, collections: collections.filter((c) => used.has(c.slug)) };
+    if (fresh) body.found = found;
     if (!products.length) {
       body.note = shopInfo.vacation
         ? "The shop is in vacation mode, so Etsy shows no active listings."
-        : "Etsy returned no active listings for this shop. Drafts, inactive and sold-out listings aren't included.";
+        : shopInfo.activeListings > 0
+          ? "Etsy counts active listings but hasn't made them available to apps yet. New listings and new shops can take a while to be indexed. Featuring (starring) the listing on Etsy, or putting it in a shop section, may make it appear sooner."
+          : "Etsy returned no active listings for this shop. Drafts, inactive and sold-out listings aren't included.";
     }
     // Empty results are only cached briefly, so new listings appear quickly.
     const res = json(body, products.length ? CACHE_SECONDS : 120);
