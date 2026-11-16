@@ -545,3 +545,4 @@ p { margin: 0 0 var(--space-2); }
 .teaser-head p { margin: 0; }
 .on-green .card-media .ph { border: 1px solid var(--hairline); }
 .credit a { display: inline-block; padding: 14px 6px; margin: -14px -6px; }
+@media (max-width: 600px) { .hero-logo { width: min(230px, 58vw); margin-bottom: var(--space-3); } }
