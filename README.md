@@ -72,7 +72,7 @@ The site reads the shop's **live Etsy listings** through Etsy's official API: ti
 | **Featured** (starred) listings | "Our pieces" on the home page |
 | Titles containing "frame" | Get the live "Picture yours" preview |
 
-The Christmas intro and **order-by date** aren't on Etsy, so they stay in `public/content/products.json` (the `collections` section). They're matched to any Etsy section whose name contains "christmas". Until the Etsy key is added, or if Etsy can't be reached, the site shows the products in that file.
+The Christmas intro and **order-by date** aren't on Etsy, so they stay in `public/content/products.json` (the `collections` section). They're matched to any Etsy section whose name contains "christmas". The site has no products of its own: until the Etsy key is added, or if Etsy can't be reached, the Shop shows a link to the Etsy shop and the home page hides its product sections.
 
 Etsy's API terms ask sites that use it to show a short notice, so the footer adds one automatically while products come from Etsy.
 

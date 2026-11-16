@@ -415,8 +415,10 @@
   $$("[data-products]").forEach(function (grid) {
     var mode = grid.getAttribute("data-products");
     loadProducts().then(function (list) {
-      if (mode === "featured") list = list.filter(function (p) { return p.featured; });
-      else if (mode === "keepsakes") list = list.filter(function (p) { return !p.collection; });
+      if (mode === "featured") {
+        var feat = list.filter(function (p) { return p.featured; });
+        list = feat.length ? feat : list.slice(0, 6); /* nothing starred on Etsy: show the newest */
+      } else if (mode === "keepsakes") list = list.filter(function (p) { return !p.collection; });
       else if (mode.indexOf("collection:") === 0) { var cs = mode.slice(11); list = list.filter(function (p) { return p.collection === cs; }); }
       if ($("[data-product-page]")) {
         var cur = new URLSearchParams(location.search).get("p") || "zawadi-frame";
@@ -465,6 +467,7 @@
           '<p class="lead reveal">Personalised frames, stitched and embroidered pictures — each one made especially for you.</p></div>' +
           '<div class="cards">' + cardsHtml(keep) + "</div></div>";
       }
+      if (!html) html = '<div class="shop-empty center"><p class="lead">Our pieces are on Etsy.</p><div class="btn-row"><a class="btn" href="' + ETSY_URL + '" target="_blank" rel="noopener">Visit our Etsy shop <span class="arrow">→</span></a></div></div>';
       shop.innerHTML = html;
       revealNew(shop);
       if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
