@@ -302,6 +302,7 @@
     if (!p) return "";
     p = String(p);
     if (p.indexOf("cdn.sanity.io/images/") > -1) return p + (p.indexOf("?") > -1 ? "&" : "?") + "w=" + (w || 1400) + "&fit=max&auto=format";
+    if (p.indexOf("etsystatic.com") > -1 && (w || 1400) <= 900) return p.replace("/il_fullxfull.", "/il_570xN.");
     return p.replace(/^\//, "");
   }
   function posterFor(src) { return /^https?:/.test(src) ? "" : src.replace(/\.mp4$/, ".jpg"); }
@@ -346,12 +347,34 @@
       });
     });
   }
+  /* Live Etsy listings (Cloudflare function /api/etsy). Collection intros and
+     order-by dates come from content/products.json, matched by collection name. */
+  function fromEtsy() {
+    return getJSON("/api/etsy").then(function (d) {
+      if (!d || !d.products || !d.products.length) throw new Error("etsy-empty");
+      return getJSON("content/products.json").catch(function () { return {}; }).then(function (local) {
+        var extra = local.collections || [];
+        var rename = {};
+        d.collections = (d.collections || []).map(function (c) {
+          var m = extra.filter(function (x) { return x.slug === c.slug || x.slug.indexOf(c.slug) > -1 || c.slug.indexOf(x.slug) > -1; })[0];
+          if (!m) return c;
+          rename[c.slug] = m.slug; /* e.g. Etsy section "christmas-collection" → "christmas" */
+          return Object.assign({}, m, { name: m.name || c.name });
+        });
+        (d.products || []).forEach(function (p) { if (rename[p.collection]) p.collection = rename[p.collection]; });
+        d.source = "etsy";
+        return d;
+      });
+    });
+  }
   var dataPromise = null;
   function loadData() {
     if (!dataPromise) {
-      dataPromise = fromSanity()
+      dataPromise = fromEtsy()
+        .catch(function () { return fromSanity(); })
         .catch(function () { return getJSON("content/products.json"); })
         .then(function (d) {
+          if (d.source === "etsy") etsyNotice();
           return {
             products: (d.products || []).filter(function (p) { return p && p.available !== false && p.slug; }),
             collections: (d.collections || []).filter(function (c) { return c && c.slug; })
@@ -359,6 +382,15 @@
         });
     }
     return dataPromise;
+  }
+  /* Required by Etsy's API terms when showing listings from the API */
+  function etsyNotice() {
+    var meta = $(".footer-meta");
+    if (!meta || $(".etsy-note", meta)) return;
+    var n = document.createElement("p");
+    n.className = "caption etsy-note";
+    n.textContent = "The term ‘Etsy’ is a trademark of Etsy, Inc. This site uses the Etsy API but is not endorsed or certified by Etsy, Inc.";
+    meta.appendChild(n);
   }
   function loadProducts() { return loadData().then(function (d) { return d.products; }); }
   function findCollection(d, slug) { return d.collections.filter(function (c) { return c.slug === slug; })[0]; }

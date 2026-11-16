@@ -6,7 +6,7 @@ The Zawadi London website, built from the Zawadi London brand kit (Zawadi Green 
 
 - **Pages:** Home · Shop · Product (one page for every product) · How It Works · Our Story · Contact
 - **Interactive bits:** looping product videos, scroll reveals, a scroll-lit "Your Moment. Your Story. Your ZAWADI." statement, the live **Picture yours** frame preview (choose a photo and frame colour, type a name and date), a lightbox gallery, an FAQ, and a contact form.
-- **Products come from Sanity:** edited in Sanity Studio, with photos on Sanity's image CDN (see below).
+- **Products come from Etsy:** the site shows the live Etsy listings, photos and prices (see below).
 - **Live Instagram feed:** "See our recent work" shows the latest @zawadildn posts through a Cloudflare Pages Function. Until it's connected, it shows the four brand posts.
 - **Link page** for the Instagram bio: `/links` (e.g. https://zawadildn.pages.dev/links), with Etsy, Instagram and email.
 - **Orders** go to Etsy: https://zawadilondon.etsy.com
@@ -19,6 +19,7 @@ public/                 ← the website (this folder is what gets deployed)
   assets/css, assets/js, assets/img, assets/video
   _headers, _redirects  ← Cloudflare caching + redirects
 functions/api/instagram.js ← Cloudflare Pages Function for the Instagram feed
+functions/api/etsy.js   ← Cloudflare Pages Function that reads the Etsy listings
 studio/                 ← Sanity Studio (product and collection editor)
 ```
 
@@ -43,9 +44,42 @@ The site is live as the Pages project **zawadildn** (https://zawadildn.pages.dev
 
 `wrangler.toml` tells Cloudflare to serve the `public/` folder, whatever the dashboard says. Its `name` must match the Pages project name (`zawadildn`). There's no build step: Cloudflare finds `functions/` on its own and runs `/api/instagram`. Every push to `main` redeploys, and other branches get preview links.
 
-## 2. Edit products (Sanity)
+## 2. Products come straight from Etsy
 
-Products, prices, photos and collections are edited in **Sanity Studio**, a free editing app hosted by Sanity. Photos you upload are served from Sanity's image CDN and resized automatically for each screen. Until Sanity is set up, the site shows the starter products in `public/content/products.json`.
+The site reads the shop's **live Etsy listings** through Etsy's official API: titles, prices, photos, descriptions, personalisation limits and shop sections. Add, edit or remove a listing on Etsy and the website follows within an hour. Every product links to its own Etsy listing to buy.
+
+### One-time setup (about 5 minutes)
+
+1. Signed in to Etsy as the shop owner, go to **https://www.etsy.com/developers/your-apps** → **Create a New App**.
+   - Name: *Zawadi London website*. Description: *Shows my own listings on my website*.
+   - Users: *Just myself or colleagues*. Commercial: *No*.
+2. Copy the app's **Keystring** and **Shared secret**. New apps can take a little while to be approved.
+3. In Cloudflare: **Workers & Pages → zawadildn → Settings → Variables and Secrets → Add**, as type **Secret**:
+   - `ETSY_API_KEY` = the Keystring
+   - `ETSY_SHARED_SECRET` = the Shared secret
+4. **Deployments → Retry deployment.** Then open https://zawadildn.pages.dev/api/etsy. You should see your listings.
+
+### How Etsy maps to the website
+
+| On Etsy | On the website |
+| --- | --- |
+| Listing title (the part before the first comma) | Product name |
+| Price, photos (in your order) | Price, photos |
+| First paragraph of the description | Description; its first sentence is the one-line summary |
+| Bullet points in the description (•, -, ★) | Details list |
+| Personalisation: character limit and instructions | Name limit and personalisation note |
+| **Shop section** (e.g. *Christmas Collection*) | Collection on the Shop page |
+| **Featured** (starred) listings | "Our pieces" on the home page |
+| Titles containing "frame" | Get the live "Picture yours" preview |
+
+The Christmas intro and **order-by date** aren't on Etsy, so they stay in `public/content/products.json` (the `collections` section). They're matched to any Etsy section whose name contains "christmas". Until the Etsy key is added, or if Etsy can't be reached, the site shows the products in that file.
+
+Etsy's API terms ask sites that use it to show a short notice, so the footer adds one automatically while products come from Etsy.
+
+## 2b. Optional: Sanity
+
+
+*Not needed if products come from Etsy.* As an alternative, products, prices, photos and collections can be edited in **Sanity Studio**, a free editing app hosted by Sanity. Photos you upload are served from Sanity's image CDN and resized automatically for each screen. Until Sanity is set up, the site shows the starter products in `public/content/products.json`.
 
 ### One-time setup (about 10 minutes)
 
